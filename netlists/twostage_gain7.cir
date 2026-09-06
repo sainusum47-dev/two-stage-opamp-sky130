@@ -1,0 +1,32 @@
+* Two-Stage Op-Amp: L=2.0, W=6/W=12, VBIAS2=0.401V
+.lib /home/sai/opamp_project/models/sky130_fd_pr/models/sky130.lib.spice tt
+
+VDD vdd 0 1.8
+VSS vss 0 0
+VIP  inp  0 DC 0.9 AC 0.5
+VIN  inn  0 DC 0.9 AC -0.5
+VBIAS  nbias  0 DC 0.89
+VBIAS2 nbias2 0 DC 0.401
+
+XM1 d1 inp  tail vss sky130_fd_pr__nfet_01v8 L=0.2 W=2
+XM2 d2 inn  tail vss sky130_fd_pr__nfet_01v8 L=0.2 W=2
+XM3 d1 d1 vdd vdd sky130_fd_pr__pfet_01v8 L=0.2 W=5
+XM4 d2 d1 vdd vdd sky130_fd_pr__pfet_01v8 L=0.2 W=5
+XM5 tail nbias vss vss sky130_fd_pr__nfet_01v8 L=0.5 W=4
+
+XM6 vout d2 vss vss sky130_fd_pr__nfet_01v8 L=2.0 W=6
+XM7 vout nbias2 vdd vdd sky130_fd_pr__pfet_01v8 L=2.0 W=12
+
+.op
+.ac dec 10 1 1G
+
+.control
+run
+setplot op1
+print v(vout)
+setplot ac1
+plot vdb(vout)
+meas ac gain_db find vdb(vout) at=1
+.endc
+
+.end

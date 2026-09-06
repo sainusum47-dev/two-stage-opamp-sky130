@@ -1,0 +1,16 @@
+* NMOS I-V sweep test - Sky130 PDK
+.lib /home/sai/opamp_project/models/sky130_fd_pr/models/sky130.lib.spice tt
+
+VDD vdd 0 1.8
+VGS g   0 1.0
+
+XM1 vdd g 0 0 sky130_fd_pr__nfet_01v8 L=0.15 W=1
+
+.dc VDD 0 1.8 0.05 VGS 0.6 1.8 0.3
+
+.control
+run
+plot i(VDD)
+.endc
+
+.end

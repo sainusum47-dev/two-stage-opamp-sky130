@@ -1,0 +1,35 @@
+* Stage 1: NMOS Differential Pair with PMOS Current Mirror Load
+.lib /home/sai/opamp_project/models/sky130_fd_pr/models/sky130.lib.spice tt
+
+VDD vdd 0 1.8
+VSS vss 0 0
+
+* Differential input sources - Vin+ and Vin- around common-mode 0.9V
+VIP  inp  0 DC 0.9
+VIN  inn  0 DC 0.9
+VID  inp  inp_ac AC 1
+* (we'll use inp_ac for AC sweep later; for now DC operating point)
+
+* Tail current source bias
+VBIAS nbias 0 DC 0.7
+
+* --- Differential pair (NMOS input) ---
+XM1 d1 inp  tail vss sky130_fd_pr__nfet_01v8 L=0.2 W=2
+XM2 d2 inn  tail vss sky130_fd_pr__nfet_01v8 L=0.2 W=2
+
+* --- PMOS current mirror load ---
+XM3 d1 d1 vdd vdd sky130_fd_pr__pfet_01v8 L=0.2 W=5
+XM4 d2 d1 vdd vdd sky130_fd_pr__pfet_01v8 L=0.2 W=5
+
+* --- Tail current source (NMOS) ---
+XM5 tail nbias vss vss sky130_fd_pr__nfet_01v8 L=0.5 W=4
+
+.op
+
+.control
+run
+print v(d1) v(d2) v(tail)
+print i(VDD)
+.endc
+
+.end

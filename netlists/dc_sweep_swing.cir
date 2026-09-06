@@ -1,0 +1,32 @@
+* DC sweep - Output voltage swing test
+.lib /home/sai/opamp_project/models/sky130_fd_pr/models/sky130.lib.spice tt
+
+VDD vdd 0 1.8
+VSS vss 0 0
+
+VIP  inp  0 DC 0.9
+VIN  inn  0 DC 0.9
+VBIAS  nbias  0 DC 0.89
+VBIAS2 nbias2 0 DC 0.401
+
+XM1 d1 inp  tail vss sky130_fd_pr__nfet_01v8 L=0.2 W=2
+XM2 d2 inn  tail vss sky130_fd_pr__nfet_01v8 L=0.2 W=2
+XM3 d1 d1 vdd vdd sky130_fd_pr__pfet_01v8 L=0.2 W=5
+XM4 d2 d1 vdd vdd sky130_fd_pr__pfet_01v8 L=0.2 W=5
+XM5 tail nbias vss vss sky130_fd_pr__nfet_01v8 L=0.5 W=4
+
+XM6 vout d2 vss vss sky130_fd_pr__nfet_01v8 L=2.0 W=6
+XM7 vout nbias2 vdd vdd sky130_fd_pr__pfet_01v8 L=2.0 W=12
+
+Cc  d2  comp_mid  4p
+Rz  comp_mid  vout  5k
+CL  vout  0  2p
+
+.dc VIP 0.85 0.95 0.0005
+
+.control
+run
+plot v(vout) vs v(inp)
+.endc
+
+.end

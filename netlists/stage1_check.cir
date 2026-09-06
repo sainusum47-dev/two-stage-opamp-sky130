@@ -1,0 +1,24 @@
+* Stage 1: Verify operating point at VBIAS=0.89V
+.lib /home/sai/opamp_project/models/sky130_fd_pr/models/sky130.lib.spice tt
+
+VDD vdd 0 1.8
+VSS vss 0 0
+VIP  inp  0 DC 0.9
+VIN  inn  0 DC 0.9
+VBIAS nbias 0 DC 0.89
+
+XM1 d1 inp  tail vss sky130_fd_pr__nfet_01v8 L=0.2 W=2
+XM2 d2 inn  tail vss sky130_fd_pr__nfet_01v8 L=0.2 W=2
+XM3 d1 d1 vdd vdd sky130_fd_pr__pfet_01v8 L=0.2 W=5
+XM4 d2 d1 vdd vdd sky130_fd_pr__pfet_01v8 L=0.2 W=5
+XM5 tail nbias vss vss sky130_fd_pr__nfet_01v8 L=0.5 W=4
+
+.op
+
+.control
+run
+print v(d1) v(d2) v(tail)
+print i(VDD)
+.endc
+
+.end

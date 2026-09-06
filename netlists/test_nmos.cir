@@ -1,0 +1,16 @@
+* Simple NMOS test - Sky130 PDK check
+.lib /home/sai/opamp_project/models/sky130_fd_pr/models/sky130.lib.spice tt
+
+VDD vdd 0 1.8
+VG  g   0 1.0
+XM1 vdd g 0 0 sky130_fd_pr__nfet_01v8 L=0.15 W=1
+
+.op
+
+.control
+run
+print v(vdd) v(g)
+show XM1
+.endc
+
+.end
