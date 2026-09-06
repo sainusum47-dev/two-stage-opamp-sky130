@@ -64,6 +64,11 @@ ngspice twostage_compensated3.cir   # Final AC gain + phase margin
 ngspice transient_smallsig.cir      # Slew rate / transient response
 ngspice dc_sweep_swing.cir          # Output voltage swing
 ```
+## Repository Structure
+
+
+<img width="697" height="530" alt="final_gain_bode_plot" src="https://github.com/user-attachments/assets/2e645c4d-0339-45e4-8cef-a6db0b8c95ec" />
+
 <img width="702" height="540" alt="dc_sweep_output_swing" src="https://github.com/user-attachments/assets/52e650c0-09cf-4b9a-85fe-51d026bfce6a" />
 
 ## Repository Structure
