@@ -70,5 +70,7 @@ ngspice dc_sweep_swing.cir          # Output voltage swing
 <img width="697" height="530" alt="final_gain_bode_plot" src="https://github.com/user-attachments/assets/2e645c4d-0339-45e4-8cef-a6db0b8c95ec" />
 
 <img width="702" height="540" alt="dc_sweep_output_swing" src="https://github.com/user-attachments/assets/52e650c0-09cf-4b9a-85fe-51d026bfce6a" />
+<img width="690" height="400" alt="final_phase_margin_plot" src="https://github.com/user-attachments/assets/db2f0c9b-f644-40f1-b14b-942a02e00081" />
+<img width="697" height="545" alt="transient_slewrate_response" src="https://github.com/user-attachments/assets/17bdf02b-c8d9-4da7-86d2-f716e5b7e2bb" />
 
 ## Repository Structure
