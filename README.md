@@ -45,9 +45,12 @@ The UPF file defines separate supply intent for the always-on and AES-core domai
 | Max fanout violations | 28 |
 | Final GDS | Generated |
 
-## Final Layout (KLayout)
+## Final Layout 
+<img width="702" height="540" alt="dc_sweep_output_swing" src="https://github.com/user-attachments/assets/f6a93776-e584-4085-86cb-f8534a7a73c0" />
 
-![KLayout Final Layout](klayout_view.png)
+<img width="697" height="530" alt="final_gain_bode_plot" src="https://github.com/user-attachments/assets/4f03069b-449f-4d7f-8ad7-7588b620437f" />
+<img width="690" height="400" alt="final_phase_margin_plot" src="https://github.com/user-attachments/assets/b0b68173-a3cd-48d4-a078-293d18ed332f" />
+<img width="697" height="545" alt="transient_slewrate_response" src="https://github.com/user-attachments/assets/34f7e1f1-dd80-47f1-8765-b809ecd32f38" />
 
 ## Repository Structure
 
