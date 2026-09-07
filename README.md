@@ -1,76 +1,76 @@
-# Two-Stage Miller-Compensated CMOS Op-Amp
+# AES-128 Low-Power Multi-Voltage Design
 
-A two-stage CMOS operational amplifier designed and verified in **ngspice** using the open-source **SkyWater Sky130 PDK**, targeting high DC gain with Miller compensation for stability.
+![Status](https://img.shields.io/badge/status-completed-brightgreen)
+![Tool](https://img.shields.io/badge/tool-OpenLane-blue)
+![PDK](https://img.shields.io/badge/PDK-Sky130-orange)
+![Language](https://img.shields.io/badge/HDL-Verilog-red)
 
-## Objective
+## Overview
 
-Design a two-stage op-amp with:
-- Target DC Gain: 70 dB
-- Phase Margin: > 60°
-- Miller compensation for frequency stability
+This project implements an AES-128 encryption core and explores
+low-power multi-voltage design concepts using the OpenLane RTL-to-GDSII
+ASIC flow and the Sky130 standard-cell library.
 
-## Final Results
+## Design Flow
 
-| Spec | Target | Achieved |
-|---|---|---|
-| DC Gain | 70 dB | 64.75 dB |
-| Phase Margin | > 60° | 62.7° |
-| Output Swing | — | ~0V to 1.8V (rail-to-rail) |
-| Slew Rate | — | ~0.063 V/µs |
+## Objectives
+
+- Implement AES-128 encryption in Verilog HDL
+- Synthesize and physically implement the design using OpenLane
+- Define multi-voltage power intent using UPF
+- Analyze power, timing, area and physical-design results
+- Generate final GDSII layout
+- Verify the final layout using DRC and LVS
 
 ## Architecture
 
-- **Stage 1**: NMOS differential pair (M1, M2) with PMOS current mirror load (M3, M4) and NMOS tail current source (M5)
-- **Stage 2**: NMOS common-source amplifier (M6) with PMOS current source load (M7)
-- **Compensation**: Miller capacitor (Cc = 4pF) with nulling resistor (Rz = 5kΩ) between Stage 1 and Stage 2 outputs
+Two intended power domains:
+- `PD_ALWAYS_ON`
+- `PD_AES_CORE`
 
-## Final Transistor Sizing
+The UPF file defines separate supply intent for the always-on and AES-core domains.
 
-| Device | Role | L (µm) | W (µm) |
-|---|---|---|---|
-| M1, M2 | NMOS input pair | 0.2 | 2 |
-| M3, M4 | PMOS mirror load | 0.2 | 5 |
-| M5 | NMOS tail source | 0.5 | 4 |
-| M6 | NMOS (Stage 2) | 2.0 | 6 |
-| M7 | PMOS (Stage 2 load) | 2.0 | 12 |
+## Final Results
 
-**Bias voltages**: VBIAS ≈ 0.89V (tail), VBIAS2 ≈ 0.401V (Stage 2 load)
-**Compensation**: Cc = 4pF, Rz = 5kΩ, CL = 2pF (load)
+| Parameter | Result |
+|---|---:|
+| Flow status | Completed |
+| Total power | 70.9 mW |
+| Worst setup slack | 3.46 ns |
+| Worst hold slack | 0.28 ns |
+| Setup violations | 0 |
+| Hold violations | 0 |
+| DRC violations | 0 |
+| LVS errors | 0 |
+| Max fanout violations | 28 |
+| Final GDS | Generated |
+
+## Final Layout (KLayout)
+
+![KLayout Final Layout](klayout_view.png)
+
+## Repository Structure
+
 
 ## Tools Used
 
-- [ngspice](http://ngspice.sourceforge.net/) 45.2 — open-source SPICE simulator
-- [SkyWater Sky130 PDK](https://github.com/google/skywater-pdk-libs-sky130_fd_pr) — open-source 130nm process design kit
-- WSL2 (Ubuntu) on Windows
+- Verilog HDL
+- OpenLane
+- Sky130
+- OpenROAD
+- KLayout
+- UPF
+- WSL2 / Ubuntu
 
-## Setup
+## Important Note
 
-```bash
-sudo apt install ngspice
-git clone https://github.com/google/skywater-pdk-libs-sky130_fd_pr.git models/sky130_fd_pr
-```
+The UPF file documents the intended multi-voltage architecture. The
+current OpenLane v1 Sky130 flow does not physically implement separate
+voltage-domain cells, level shifters, or independently powered physical
+domains. This project demonstrates the multi-voltage power-intent
+concept together with a complete ASIC physical-design flow, rather than
+claiming a physically implemented multi-voltage silicon layout.
 
-**Known PDK bug fix**: The raw repo has a missing comment marker in `cells/nfet_05v0_nvt/sky130_fd_pr__nfet_05v0_nvt.pm3.spice` (line 16), which breaks ngspice parsing. Fix with:
+## Author
 
-```bash
-sed -i '16s/^include/* include/' models/sky130_fd_pr/cells/nfet_05v0_nvt/sky130_fd_pr__nfet_05v0_nvt.pm3.spice
-```
-
-## Running the Simulations
-
-```bash
-cd netlists
-ngspice twostage_compensated3.cir   # Final AC gain + phase margin
-ngspice transient_smallsig.cir      # Slew rate / transient response
-ngspice dc_sweep_swing.cir          # Output voltage swing
-```
-## Repository Structure
-
-
-<img width="697" height="530" alt="final_gain_bode_plot" src="https://github.com/user-attachments/assets/2e645c4d-0339-45e4-8cef-a6db0b8c95ec" />
-
-<img width="702" height="540" alt="dc_sweep_output_swing" src="https://github.com/user-attachments/assets/52e650c0-09cf-4b9a-85fe-51d026bfce6a" />
-<img width="690" height="400" alt="final_phase_margin_plot" src="https://github.com/user-attachments/assets/db2f0c9b-f644-40f1-b14b-942a02e00081" />
-<img width="697" height="545" alt="transient_slewrate_response" src="https://github.com/user-attachments/assets/17bdf02b-c8d9-4da7-86d2-f716e5b7e2bb" />
-
-## Repository Structure
+Sai Lakshmi
